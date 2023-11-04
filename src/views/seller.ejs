@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Dashboard - Vendedor</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <span class="mb-1 text-secondary">vendedor</span>
+      <h2 class="fw-bold fs-1"><%= seller.name %></h2>
+    </section>
+
+    <section class="container dash-metrics mt-4">
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div
+          class="rounded-circle bg-secondary bg-opacity-10 text-secondary mb-2 p-2"
+        >
+          <i data-lucide="bar-chart-3"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Total vendas</p>
+        <h5><%= orderTotal ? orderTotal : '0' %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div
+          class="rounded-circle bg-success bg-opacity-10 text-success mb-2 p-2"
+        >
+          <i data-lucide="badge-dollar-sign"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Total comissão</p>
+        <h5>R$ <%= commissionTotal ? commissionTotal : '0' %></h5>
+      </div>
+    </section>
+
+    <div class="container mt-5">
+      <p class="mb-3 fw-medium fs-5">Histórico de vendas</p>
+
+      <div class="mb-3">
+        <form action="/vendedores/<%= seller.id %>" id="formDate" method="get">
+          <label class="pe-4 pb-2" for="date">Filtrar data:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            class="form-control"
+            aria-describedby="dateHelper"
+            data-action="vendedores/<%= seller.id %>"
+            value="<%= initialDay ? initialDay.toLocaleDateString().split('/').reverse().join('-') : '' %>"
+            required
+          />
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Produto</th>
+              <th scope="col">Qt.</th>
+              <th scope="col">Total</th>
+              <th scope="col">Lucro</th>
+              <th scope="col">Comissão</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <% for( let order of sellerOrders ) { %>
+            <tr>
+              <th scope="row">
+                <%= order.Product.name.length > 14 ? order.Product.name.slice(0,
+                13) + '...' : order.Product.name %>
+              </th>
+              <td><%= order.qt %></td>
+              <td>R$ <%= order.billed %></td>
+              <td>R$ <%= order.profit %></td>
+              <td class="text-success fw-bold">R$ <%= order.commission %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <%- include('partials/scripts.ejs') %>
+  </body>
+</html>

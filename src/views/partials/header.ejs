@@ -1,0 +1,103 @@
+<header class="header">
+  <div class="container d-flex justify-content-between h-100 py-3">
+    <div class="menu-bars text-white">
+      <!-- <i class="fa-solid fa-bars"></i> -->
+      <i data-lucide="align-left"></i>
+    </div>
+
+    <div class="menu">
+      <div class="d-flex justify-content-end mt-2 me-3">
+        <button
+          id="menuClose"
+          class="bg-transparent border border-0 text-white fs-3 pe-auto"
+        >
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <ul class="mt-4 px-3">
+        <li>
+          <a href="/" class="link-light d-flex align-items-center py-3 ps-3">
+            <i data-lucide="home"></i>
+            Dashboard
+          </a>
+        </li>
+        <li>
+          <a
+            href="/vendas"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="badge-dollar-sign"></i>
+            Vendas
+          </a>
+        </li>
+        <li>
+          <a
+            href="/perdas"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="trending-down"></i>
+            Perdas
+          </a>
+        </li>
+        <li>
+          <a
+            href="/estoque"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="box"></i>
+            Estoque
+          </a>
+        </li>
+        <li>
+          <a
+            href="/produtos"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="popsicle"></i>
+            Produtos
+          </a>
+        </li>
+        <li>
+          <a
+            href="/vendedores"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="users"></i>
+            Vendedores
+          </a>
+        </li>
+        <!-- <li>
+          <a
+            href="/vendedores"
+            class="link-light d-flex align-items-center py-3 ps-3"
+          >
+            <i data-lucide="line-chart"></i>
+            Métricas
+          </a>
+        </li> -->
+      </ul>
+    </div>
+
+    <div class="dropdown header--profile">
+      <a
+        class="dropdown-toggle d-inline-block"
+        href="#"
+        role="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          src="/img/profile.webp"
+          class="img-fluid rounded-pill"
+          alt="Elifelete M."
+        />
+      </a>
+
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/conta">Minha conta</a></li>
+        <li><a class="dropdown-item" href="/logout">Sair</a></li>
+      </ul>
+    </div>
+  </div>
+</header>

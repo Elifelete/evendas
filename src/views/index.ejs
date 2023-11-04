@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <h2 class="mb-1">Overview</h2>
+      <span class="text-secondary">
+        aqui estão algumas de suas estatísticas
+      </span>
+    </section>
+
+    <section class="container dash-metrics mt-4">
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div
+          class="rounded-circle bg-secondary bg-opacity-10 text-secondary mb-2 p-2"
+        >
+          <i data-lucide="bar-chart-3"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Total vendas (Mês Atual)</p>
+        <h5>
+          <%= ordersMetrics.dataValues.totalQt ?
+          ordersMetrics.dataValues.totalQt : '0' %>
+        </h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div
+          class="rounded-circle bg-success bg-opacity-10 text-success mb-2 p-2"
+        >
+          <i data-lucide="badge-dollar-sign"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Faturamento (Mês Atual)</p>
+        <h5>
+          R$ <%= ordersMetrics.dataValues.totalBilled ?
+          ordersMetrics.dataValues.totalBilled : '0' %>
+        </h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div
+          class="rounded-circle bg-warning bg-opacity-10 text-warning mb-2 p-2"
+        >
+          <i data-lucide="dollar-sign"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Lucro (Mês Atual)</p>
+        <h5>
+          R$ <%= ordersMetrics.dataValues.totalProfit ?
+          ordersMetrics.dataValues.totalProfit : '0' %>
+        </h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <div class="rounded-circle bg-info bg-opacity-10 text-info mb-2 p-2">
+          <i data-lucide="badge-percent"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Comissões (Mês Atual)</p>
+        <h5>R$ <%= commissionMetrics ? commissionMetrics : '0' %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3"
+      >
+        <div
+          class="rounded-circle bg-danger bg-opacity-10 text-danger mb-2 p-2"
+        >
+          <i data-lucide="trending-down"></i>
+        </div>
+        <p class="mb-2 text-uppercase">Total perdas (Geral)</p>
+        <h5>
+          <%= lossesMetrics.dataValues.totalQt ?
+          lossesMetrics.dataValues.totalQt : '0' %>
+          <span> (R$ <%= lossesMetrics.dataValues.totalBilled %>) </span>
+        </h5>
+      </div>
+    </section>
+
+    <section class="container mt-5">
+      <h3 class="mb-1 d-flex align-items-center">
+        <i data-lucide="badge-dollar-sign"></i>
+        <span class="ps-2">Faturamento Anual</span>
+      </h3>
+      <span class="text-secondary">Gráfico do faturamento de cada mês</span>
+
+      <div class="w-100">
+        <canvas id="myChart"></canvas>
+      </div>
+    </section>
+
+    <section class="container mt-5">
+      <h3 class="mb-1 d-flex align-items-center">
+        <i data-lucide="users"></i>
+        <span class="ps-2">Vendedores</span>
+      </h3>
+      <span class="text-secondary">Métricas de cada vendedor (mês atual)</span>
+
+      <div class="mt-4">
+        <% for( let seller of sellersMetrics ) { %>
+        <div class="dash-sellers text-white rounded py-3 px-3 mb-3">
+          <div class="d-flex align-items-center mb-3">
+            <i data-lucide="user-2"></i>
+            <p class="mb-0 ps-3 fw-medium fs-5"><%= seller.name %></p>
+          </div>
+          <div class="d-flex">
+            <div class="pe-5">
+              <p class="mb-0">Vendas total</p>
+              <span><%= seller.dataValues.totalSales %></span>
+            </div>
+            <div>
+              <p class="mb-0">Comissão total</p>
+              <span>R$ <%= seller.commission %></span>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </section>
+
+    <%- include('partials/scripts.ejs') %>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const billedYear = async () => {
+        const date = await fetch('/billed', {
+          method: 'GET',
+          credentials: 'include'
+        })
+
+        const result = await date.json()
+
+        return result
+      }
+
+      ;(async () => {
+        const ctx = document.getElementById('myChart')
+
+        const data = await billedYear()
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: data.map((item) => item.month),
+            datasets: [
+              {
+                label: 'Valor',
+                data: data.map((item) => item.total),
+                borderWidth: 1
+              }
+            ]
+          }
+        })
+      })()
+    </script>
+  </body>
+</html>

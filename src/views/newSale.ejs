@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Carrinho</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <h2 class="text-center">Registrar vendas</h2>
+
+      <form action="" class="mt-4 mb-2">
+        <div class="mb-3">
+          <label for="seller" class="form-label">Vendedor</label>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            aria-describedby="sellerHelp"
+            name="seller"
+            id="seller"
+            required
+          >
+            <option hidden>Selecione o vendedor</option>
+            <% for( let seller of sellers ) { %>
+            <option value="<%= seller.id %>"><%= seller.name %></option>
+            <% } %>
+          </select>
+          <div id="sellerHelp" class="form-text">Selecione o vendedor</div>
+        </div>
+      </form>
+
+      <div class="mb-4">
+        <p class="mb-2">produtos</p>
+        <button
+          class="btn btn-primary w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#addProduct"
+        >
+          Adicionar produto
+        </button>
+      </div>
+
+      <div class="products--list mb-4">
+        <!-- <div class="border-bottom position-relative mb-3">
+          <h3 class="fs-6 fw-bold">Magnum - <span>30x</span></h3>
+          <div class="d-flex">
+            <p class="mb-1 pe-2">Total: R$<span>200</span></p>
+            <p class="mb-1">Com. R$<span>200</span></p>
+          </div>
+
+          <button
+            class="text-secondary border border-0 bg-transparent position-absolute top-0 end-0"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div> -->
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <p class="mb-1 fw-medium">Total:</p>
+        <p class="mb-1 fw-bold">R$ <span id="total">0</span></p>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <p class="fw-medium">Comissão total:</p>
+        <p class="fw-bold">R$ <span id="commissiontotal">0</span></p>
+      </div>
+    </section>
+
+    <div class="w-100 position-fixed bottom-0 left-0 mb-3">
+      <div class="container">
+        <button class="btn btn-success w-100" id="addOrderButton">
+          Registrar vendas
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="position-fixed w-75 top-50 start-50 translate-middle alert-success"
+    >
+      <div class="bg-white shadow-lg rounded text-success text-center p-4">
+        <img src="/img/success.gif" class="img-fluid" alt="Sucesso" />
+        <p>Adicionado com sucesso</p>
+      </div>
+    </div>
+
+    <!-- Modal add product -->
+    <div
+      class="modal fade"
+      id="addProduct"
+      tabindex="-1"
+      aria-labelledby="addProduct"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Adicionar produto ao carrinho</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="product" class="form-label">Produto</label>
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                aria-describedby="productHelp"
+                name="product"
+                id="product"
+                required
+              >
+                <% for( let product of products ) { %>
+                <option
+                  value="<%= product.id %>"
+                  data-price="<%= product.sale_value %>"
+                  data-comi="<%= product.commission %>"
+                >
+                  <%= product.name %>
+                </option>
+                <% } %>
+              </select>
+              <div id="productHelp" class="form-text">Selecione o produto</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="qtOut" class="form-label">Qt. saiu</label>
+              <input
+                type="number"
+                id="qtOut"
+                name="qtOut"
+                class="form-control"
+                aria-describedby="qtOutHelper"
+                required
+              />
+              <div id="qtOutHelper" class="form-text">
+                Informe a quantidade colocada no carrinho
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="qtLeft" class="form-label">Qt. voltou</label>
+              <input
+                type="number"
+                id="qtLeft"
+                name="qtLeft"
+                class="form-control"
+                aria-describedby="qtLeftHelper"
+                required
+              />
+              <div id="qtLeftHelper" class="form-text">
+                Informe a quantidade restante
+              </div>
+            </div>
+
+            <div class="d-none" id="alert--addProduct">
+              <p class="text-warning">
+                Se não vendeu, por que vai adicionar uma venda que não foi
+                feita?
+              </p>
+            </div>
+          </div>
+
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" id="addProductButton">
+              Adicionar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/scripts.ejs') %>
+    <script src="/js/cart.js"></script>
+  </body>
+</html>

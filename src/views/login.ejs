@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <%- include('./partials/head.ejs') %>
+    <title>Login</title>
+  </head>
+  <body>
+    <div
+      class="main-login w-100 h-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="login bg-white py-5 px-3 rounded">
+        <h2 class="text-center mb-5 fw-normal">Seja bem-vindo(a)!</h2>
+        <form action="/login" method="post">
+          <div class="mb-3">
+            <label for="email" class="form-label">E-mail</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Informe o e-mail"
+              class="form-control py-2"
+            />
+          </div>
+          <div>
+            <label for="password" class="form-label">Senha</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Informe a senha"
+              class="form-control py-2"
+            />
+          </div>
+
+          <% if (message) { %>
+          <p class="pt-3 text-center">E-mail ou Senha incorreta!</p>
+          <% } %>
+
+          <button
+            type="submit"
+            class="w-100 mt-4 rounded-pill text-center text-white"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <%- include('./partials/scripts.ejs') %>
+  </body>
+</html>

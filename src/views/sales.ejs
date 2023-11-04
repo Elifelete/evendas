@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Vendas</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <div class="title">
+        <div class="d-flex flex-column">
+          <h2><i data-lucide="badge-dollar-sign"></i> Vendas</h2>
+          <span class="text-secondary">
+            Há um total de <%= totalOrdersQt ? totalOrdersQt : '0' %> vendas <%=
+            initialDay.toLocaleDateString() == new Date().toLocaleDateString() ?
+            'hoje' : 'em ' + initialDay.toLocaleDateString() %>
+          </span>
+          <span class="text-secondary">
+            Totalizando R$ <%= totalOrdersBilled ? totalOrdersBilled : '0' %> em
+            vendas
+          </span>
+        </div>
+
+        <a href="/vendas/nova" class="btn btn-success mt-3 w-100">
+          <i class="fa-solid fa-plus"></i>
+          Novo Carrinho
+        </a>
+        <a href="/vendas/avulsa" class="btn btn-primary mt-2 w-100">
+          <i class="fa-solid fa-plus"></i>
+          Venda Avulsa
+        </a>
+      </div>
+
+      <div class="mt-5 mb-3">
+        <form action="/vendas" id="formDate" method="get">
+          <label class="pe-4 pb-2" for="date">Filtrar data:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            class="form-control"
+            aria-describedby="dateHelper"
+            value="<%= initialDay.toLocaleDateString().split('/').reverse().join('-')
+            %>"
+            data-action="vendas"
+            required
+          />
+        </form>
+      </div>
+
+      <div class="mt-3">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Qt.</th>
+                <th scope="col">Total</th>
+                <th scope="col">Lucro</th>
+                <th scope="col">Comissão</th>
+                <th scope="col">Vendedor</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider" id="orders">
+              <% for( let order of orders ) { %>
+              <tr>
+                <th scope="row">
+                  <% if (order.Product.name.length > 14) { %> <%=
+                  order.Product.name.slice(0, 13) + "..." %> <% } else { %> <%=
+                  order.Product.name %> <% } %>
+                </th>
+                <td><%= order.qt %></td>
+                <td>R$ <%= order.billed %></td>
+                <td>R$ <%= order.profit %></td>
+                <td
+                  class="<%= order.Seller.name == 'avulso' ? 'text-decoration-line-through text-secondary' : '' %>"
+                >
+                  R$ <%= order.commission %>
+                </td>
+                <td><%= order.Seller.name %></td>
+                <td>
+                  <a href="/vendas/show/<%= order.id %>" class="text-primary">
+                    <i data-lucide="eye"></i>
+                  </a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/scripts.ejs') %>
+  </body>
+</html>

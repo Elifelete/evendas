@@ -1,0 +1,6 @@
+.env
+node_modules/
+client.http
+package-lock.json
+seeders/
+.vscode/

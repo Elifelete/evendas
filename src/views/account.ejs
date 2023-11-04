@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Minha Conta</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container my-4">
+      <div class="title">
+        <div>
+          <h2><i data-lucide="users"></i> Minha Conta</h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="card">
+        <div class="card-header">
+          <p class="mb-1 fw-medium">Conta</p>
+          <span>Informações da conta</span>
+        </div>
+        <div class="card-body">
+          <form>
+            <div class="mb-3">
+              <label for="name" class="form-label">Nome</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                id="name"
+                value="Victor"
+                disabled
+              />
+            </div>
+            <div class="">
+              <label for="email" class="form-label">E-mail</label>
+              <input
+                type="text"
+                class="form-control"
+                name="email"
+                id="email"
+                value="victor@gmail.com"
+                disabled
+              />
+            </div>
+
+            <!-- <button type="submit" class="btn float-end btn-primary mt-3">
+              Alterar
+            </button> -->
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="container mt-4">
+      <div class="card">
+        <div class="card-header">
+          <p class="mb-1 fw-medium">Senha</p>
+          <span>Altera a senha da sua conta</span>
+        </div>
+        <div class="card-body">
+          <form action="/reset" method="post">
+            <div
+              class="bg-warning bg-opacity-10 text-warning fw-bold mb-3 py-2 px-3 rounded"
+              <%= fail ? '' : 'hidden' %>
+            >
+              Senha atual inválida
+            </div>
+            <div
+              class="bg-success bg-opacity-25 text-success fw-bold mb-3 py-2 px-3 rounded"
+              <%= success ? '' : 'hidden' %>
+            >
+              Senha alterada com sucesso
+            </div>
+
+            <div class="mb-3">
+              <label for="oldPass" class="form-label <%= fail ? 'text-danger' : '' %>">Senha atual</label>
+              <input
+                type="password"
+                class="form-control <%= fail ? 'is-invalid' : '' %>"
+                name="oldPass"
+                id="oldPass"
+                required
+                <%= fail ? 'autofocus' : '' %>
+              />
+            </div>
+            <div class="mb-3">
+              <label for="newPass" class="form-label">Nova senha</label>
+              <input
+                type="password"
+                class="form-control"
+                name="newPass"
+                id="newPass"
+                required
+                onchange="confirmPass()"
+              />
+            </div>
+            <div class="">
+              <label for="RepeatNewPass" class="form-label">
+                Repita a nova senha
+              </label>
+              <input
+                type="password"
+                class="form-control"
+                name="confirm"
+                id="RepeatNewPass"
+                required
+                onchange="confirmPass()"
+              />
+            </div>
+
+            <button type="submit" class="btn float-end btn-success mt-3">
+              Alterar
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/scripts.ejs') %>
+    <script>
+      function confirmPass() {
+        const password = document.querySelector('input[name=newPass]');
+        const confirm = document.querySelector('input[name=confirm]');
+        if (confirm.value === password.value) {
+          confirm.setCustomValidity('');
+        } else {
+          confirm.setCustomValidity('As senhas não coincidem');
+        }
+      }
+    </script>
+  </body>
+</html>

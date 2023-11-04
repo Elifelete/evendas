@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Perdas</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <div class="title">
+        <div class="d-flex flex-column">
+          <h2><i data-lucide="trending-down"></i> Perdas</h2>
+          <span class="text-secondary">
+            Há um total de
+            <span class="text-danger fw-medium">
+              <%= totalLossQt ? totalLossQt : '0' %>
+            </span>
+            perdas <% if (initialDay) { %>
+            <span>em <%= initialDay.toLocaleDateString() %> </span>
+            <% } %>
+          </span>
+          <span class="text-secondary">
+            Totalizando
+            <span class="text-danger fw-medium">
+              R$ <%= totalLossBilled ? totalLossBilled : '0' %> em perdas
+            </span>
+            no faturamento
+          </span>
+        </div>
+
+        <a href="/perdas/nova" class="btn btn-success mt-3 w-100">
+          <i class="fa-solid fa-plus"></i>
+          Registrar perda
+        </a>
+      </div>
+
+      <div class="mt-5 mb-3">
+        <form action="/perdas" id="formDate" method="get">
+          <label class="pe-4 pb-2" for="date">Filtrar data:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            class="form-control"
+            aria-describedby="dateHelper"
+            data-action="perdas"
+            required
+            value="<%= initialDay ? initialDay.toLocaleDateString().split('/').reverse().join('-') : '' %>"
+          />
+        </form>
+      </div>
+
+      <div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Qt.</th>
+                <th scope="col">Total</th>
+                <th scope="col">Data</th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <% for( let loss of losses ) { %>
+              <tr>
+                <th scope="row">
+                  <% if (loss.Product.name.length > 14) { %> <%=
+                  loss.Product.name.slice(0, 13) + "..." %> <% } else { %> <%=
+                  loss.Product.name %> <% } %>
+                </th>
+                <td><%= loss.qt %></td>
+                <td>R$ <%= loss.billed %></td>
+                <td><%= loss.createdAt.toLocaleDateString() %></td>
+                <td>
+                  <a href="/perdas/show/<%= loss.id %>" class="text-primary">
+                    <i data-lucide="eye"></i>
+                  </a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/scripts.ejs') %>
+  </body>
+</html>

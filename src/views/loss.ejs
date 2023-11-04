@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Dashboard - perda</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <span class="mb-1 text-secondary">perda</span>
+      <h2 class="fw-medium fs-6">
+        #<%= loss.id %> - <%= loss.createdAt.toLocaleString() %>
+      </h2>
+    </section>
+
+    <section class="container dash-metrics mt-4">
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <p class="mb-2 text-uppercase">Produto</p>
+        <h5><%= loss.Product.name %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <p class="mb-2 text-uppercase">Quantidade perdida</p>
+        <h5><%= loss.qt %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <p class="mb-2 text-uppercase">Valor total</p>
+        <h5>R$ <%= loss.billed %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <p class="mb-2 text-uppercase">Possível Lucro</p>
+        <h5>R$ <%= loss.profit %></h5>
+      </div>
+
+      <div
+        class="dash-metrics-card rounded d-flex flex-column align-items-start p-3 mb-3"
+      >
+        <p class="mb-2 text-uppercase">Motivo da perda</p>
+        <p><%= loss.description %></p>
+      </div>
+    </section>
+
+    <section class="container">
+      <button type="button" class="btn btn-warning w-100 text-uppercase mb-2">
+        Desfazer
+      </button>
+      <button type="button" class="btn btn-danger w-100 text-uppercase">
+        Excluir
+      </button>
+    </section>
+
+    <%- include('partials/scripts.ejs') %>
+  </body>
+</html>

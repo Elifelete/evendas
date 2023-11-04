@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Vendedores</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container my-4">
+      <div class="title">
+        <div>
+          <h2><i data-lucide="users"></i> Vendedores</h2>
+          <span class="text-secondary">
+            Há um total de <%= countSellers %> vendedores.
+          </span>
+        </div>
+
+        <button
+          class="btn btn-success mt-3 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#addSeller"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Adicionar
+        </button>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <% for( let seller of sellers ) { %>
+        <div class="col">
+          <div class="card rounded">
+            <div class="card--header rounded-top bg-dark position-relative">
+              <img
+                src="/img/profile.webp"
+                class="img-fluid position-absolute rounded-pill top-50 start-50 translate-middle-x"
+                alt="<%= seller.name %>"
+              />
+            </div>
+            <div class="card-body mt-4">
+              <h3 class="fw-medium fs-5 text-center mt-3">
+                <%= seller.name %>
+              </h3>
+              <p class="card-text mb-1">
+                Vendas:
+                <span class="fw-bold">
+                  <%= seller.dataValues.totalSales ?
+                  seller.dataValues.totalSales : '0' %>
+                </span>
+              </p>
+              <p class="card-text">
+                Comissão:
+                <span class="fw-bold text-success">
+                  R$ <%= seller.commission %>
+                </span>
+              </p>
+              <a
+                href="/vendedores/<%= seller.id %>"
+                class="my-2 btn btn-secondary w-100 stretched-link"
+              >
+                Acessar
+              </a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="addSeller"
+      tabindex="-1"
+      aria-labelledby="addSeller"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Adicionar vendedor</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form action="/vendedores" method="post" id="formSeller">
+              <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  aria-describedby="nameHelp"
+                  required
+                />
+                <div id="nameHelp" class="form-text">
+                  Informe o nome do vendedor
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  aria-describedby="emailHelp"
+                  required
+                />
+                <div id="emailHelp" class="form-text">
+                  Informe o e-mail do vendedor
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Senha</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  aria-describedby="passwordHelp"
+                  required
+                />
+                <div id="passwordHelp" class="form-text">
+                  Informe uma senha para o vendedor
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select
+                  class="form-select"
+                  name="status"
+                  aria-describedby="statusHelp"
+                  aria-label="Default select example"
+                >
+                  <option value="active" selected>ativo</option>
+                  <option value="blocked">bloqueado</option>
+                </select>
+                <div id="statusHelp" class="form-text">
+                  Informe o status do vendedor
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" form="formSeller">
+              Cadastrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/scripts.ejs') %>
+  </body>
+</html>

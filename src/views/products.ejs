@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <%- include('partials/head') %>
+
+    <title>Produtos</title>
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="container mt-4">
+      <div class="title">
+        <div>
+          <h2><i data-lucide="popsicle"></i> Produtos</h2>
+          <span class="text-secondary">
+            Há um total de <%= countProducts %> produtos criados.
+          </span>
+        </div>
+
+        <button
+          class="btn btn-success mt-3 w-100"
+          data-bs-toggle="modal"
+          data-bs-target="#addProductModal"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Adicionar
+        </button>
+      </div>
+    </section>
+
+    <section class="container mt-5">
+      <% for( let product of products ) { %>
+      <div
+        class="products--card d-flex flex-column ps-2 position-relative mb-4"
+      >
+        <h5>
+          <%= product.name %> -
+          <span class="text-success"><%= product.qt %></span>
+        </h5>
+        <span>
+          Valor de compra:
+          <span class="fw-medium">R$ <%= product.purchase_price %></span>
+        </span>
+        <span>
+          Valor de venda:
+          <span class="fw-medium">R$ <%= product.sale_value %></span>
+        </span>
+        <span>
+          Lucro:
+          <span class="fw-medium">R$ <%= product.profit %></span>
+        </span>
+        <span>
+          Comissão:
+          <span class="fw-medium"><%= product.commission %>%</span>
+        </span>
+        <span>
+          Lucro c. comissão:
+          <span class="fw-medium">R$ <%= product.profit_commission %></span>
+        </span>
+
+        <a href="" class="my-2 w-100 stretched-link"></a>
+      </div>
+      <% } %>
+    </section>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="addProductModal"
+      tabindex="-1"
+      aria-labelledby="addProductModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="modal-title fs-5" id="addProductModalLabel">
+              Adicionar novo produto
+            </span>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- <div class="mx-auto product--thumb mb-3">
+              <img
+                src="/img/31576083.jpeg"
+                class="img-fluid rounded-pill"
+                alt="Magnum"
+              />
+            </div> -->
+            <form action="/produtos" method="post" id="formProduct">
+              <!-- <div class="mb-3">
+                <div class="mb-3">
+                  <label for="thumb" class="form-label">
+                    Foto do produto
+                  </label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    name="thumb"
+                    aria-describedby="thumb"
+                    id="thumb"
+                  />
+                </div>
+                <div id="thumb" class="form-text">
+                  Envie uma foto do produto
+                </div>
+              </div> -->
+
+              <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  aria-describedby="nameHelp"
+                  placeholder="Ex: Magnum"
+                  required
+                />
+                <div id="nameHelp" class="form-text">
+                  Informe o nome do produto
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="purchase_price" class="form-label">
+                  Valor de compra
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="purchase_price"
+                  name="purchase_price"
+                  aria-describedby="purchase_priceHelp"
+                  placeholder="Ex: R$ 10"
+                  required
+                  onkeyup="formatPrice(this)"
+                />
+                <div id="purchase_priceHelp" class="form-text">
+                  Informe valor pago ao fornecedor (Unidade)
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="sale_value" class="form-label">
+                  Valor de venda
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sale_value"
+                  name="sale_value"
+                  aria-describedby="sale_valueHelp"
+                  placeholder="Ex: R$ 20"
+                  required
+                  onkeyup="formatPrice(this)"
+                />
+                <div id="sale_valueHelp" class="form-text">
+                  Informe por qual valor você vende (Unidade)
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="commission" class="form-label">Comissão (%)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="commission"
+                  name="commission"
+                  aria-describedby="commissionHelp"
+                  placeholder="Ex: 30 sem o sinal %"
+                  required
+                />
+                <div id="commissionHelp" class="form-text">
+                  Porcentagem da comissão do vendedor
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Fechar
+            </button>
+            <button type="submit" form="formProduct" class="btn btn-primary">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/scripts.ejs') %>
+    <script>
+      const formatPrice = (element) => {
+        let { value } = element
+
+        value = value.replace(/[^\d.]/g, '')
+
+        const valueFormatted = Number(value / 100).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        })
+
+        element.value = valueFormatted
+      }
+    </script>
+  </body>
+</html>

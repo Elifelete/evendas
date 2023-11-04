@@ -1,0 +1,175 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-blue: #0D3D76;
+  --color-green: #20FFBC;
+  --color-gray: #323232;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  list-style-position: inside;
+}
+
+.text-zero {
+  display: none;
+}
+
+.color-primary {
+  color: var(--color-blue);
+}
+
+.color-green {
+  color: var(--color-green);
+}
+
+.header {
+  background-color: #28292b;
+}
+
+.header .menu-bars {
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.header .menu-bars svg {
+  height: 34px;
+  width: 34px;
+}
+
+.header--profile a.dropdown-toggle {
+  height: 40px;
+  width: 40px;
+}
+
+.header--profile img {
+  height: 100%;
+  width: 100%;
+}
+
+.header--profile .dropdown-toggle::after {
+  display: none;
+}
+
+.header ul li a:not(.dropdown-item) {
+  display: block;
+  /* background-color: #28292b; */
+  border-bottom: 1px solid #28292b;
+}
+
+.header ul li a svg {
+  margin-right: .6rem;
+}
+
+.products--card {
+  border-left: 7px solid #D9D9D9;
+  border-radius: 5px;
+}
+
+.product--thumb {
+  height: 100px;
+  width: 100px;
+}
+
+.card--header {
+  height: 55px;
+}
+
+
+.card--header img {
+  height: 60px;
+}
+
+.menu {
+  position: fixed;
+  left: -120%;
+  top: 0;
+  height: 100vh;
+  width: 70%;
+  background-color: #232427;
+  opacity: 0;
+  z-index: 3;
+  transition: all .6s;
+}
+
+.menu.active {
+  left: 0;
+  opacity: 1;
+}
+
+.repository-metrics {
+  background: #f1f1f1;
+}
+
+.alert-success {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s;
+}
+
+.alert-success.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dash-metrics .dash-metrics-card {
+  border: 1px solid #cdcdcd94;
+}
+
+.dash-metrics .dash-metrics-card p {
+  font-size: .9rem;
+}
+
+.dash-sellers {
+  background-color: #2b2b2b;
+}
+
+.dash-sellers img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+}
+
+.dash-sellers svg {
+  height: 30px;
+  width: 30px;
+}
+
+.main-login {
+  background: #141E30;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #243B55, #141E30);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #243B55, #141E30);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+.login {
+  max-width: 700px;
+  width: 85%;
+}
+
+.login form button[type="submit"] {
+  all: unset;
+  background-color: #1CC88A;
+  padding: 0.8rem 0;
+}
